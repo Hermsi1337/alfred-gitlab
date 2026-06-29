@@ -55,6 +55,9 @@ jobs:
 
       - name: Build GitLab.alfredworkflow
         run: |
+          rm -f GitLab.alfredworkflow
+          find src -name '*.pyc' -delete
+          find src -type d -name '__pycache__' -prune -exec rm -rf {} +
           cd src
           zip -r ../GitLab.alfredworkflow . -x '*.pyc' '*/__pycache__/*' '*.DS_Store'
 
