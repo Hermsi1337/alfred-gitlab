@@ -1,6 +1,10 @@
 The MIT License (MIT)
 
 Copyright (c) 2017-2018 Luke Waite <lwaite@gmail.com>
+Copyright (c) 2026 Dennis Hermsmeier (hermsi1337)
+
+This project is a fork of "alfred-gitlab" by Luke Waite:
+https://github.com/lukewaite/alfred-gitlab
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

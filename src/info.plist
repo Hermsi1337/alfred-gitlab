@@ -737,7 +737,7 @@
 		<string>quick_open</string>
 	</array>
 	<key>version</key>
-	<string>3.0.1</string>
+	<string>1.0.0</string>
 	<key>webaddress</key>
 	<string>https://github.com/hermsi1337/alfred-gitlab</string>
 </dict>
