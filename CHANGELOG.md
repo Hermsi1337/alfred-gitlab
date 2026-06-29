@@ -5,6 +5,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Added
+- Manual `glrefresh` keyword to force an immediate refresh of the cached project list
+- `membership` workflow variable to optionally list projects you can access but are not a member of (default `true`, unchanged behaviour)
+- `refresh_interval` workflow variable to configure how long the cached project list stays fresh (default `3600` seconds)
+- Background project-fetch errors are now surfaced in the Alfred results instead of being silently swallowed
+
+### Changed
+- Authenticate against the GitLab API with the `PRIVATE-TOKEN` header instead of the deprecated `private_token` query parameter
+- Point the self-updater at `hermsi1337/alfred-gitlab`
+- Update branding and the personal-access-token URL to GitLab's current `/-/user_settings/personal_access_tokens` path
+- Fetch project pages iteratively rather than recursively
+
 ## [v3.0.1] (2022-07-18)
 * Remove URLEncoding of repo URLs are they appear to break opening in Alfred 5 ([#9ce14af](https://github.com/lukewaite/alfred-gitlab/commit/9ce14af))
 
@@ -65,7 +77,7 @@ upgraded to the fork in the meantime has the ability to pull updates in the futu
 
 * Initial implementaiton of alfred-gitlab workflow
 
-[Unreleased]: https://github.com/lukewaite/alfred-gitlab/compare/v3.0.1...HEAD
+[Unreleased]: https://github.com/hermsi1337/alfred-gitlab/compare/v3.0.1...HEAD
 [v3.0.0]: https://github.com/lukewaite/alfred-gitlab/compare/v3.0.0...v3.0.1
 [v3.0.0]: https://github.com/lukewaite/alfred-gitlab/compare/v1.6.0...v3.0.0
 [v1.6.0]: https://github.com/lukewaite/alfred-gitlab/compare/v1.5.0...v1.6.0

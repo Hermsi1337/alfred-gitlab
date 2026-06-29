@@ -159,9 +159,35 @@
 				<false/>
 			</dict>
 		</array>
+		<key>D71B6659-9215-43E3-9D46-6788EE6AD00D</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>40BFA829-BD00-4838-BF85-29C7BB3A10EB</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>40BFA829-BD00-4838-BF85-29C7BB3A10EB</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>F140FD98-1E88-4DE9-9B6B-082378E8C7EC</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
 	</dict>
 	<key>createdby</key>
-	<string>Luke Waite</string>
+	<string>hermsi1337</string>
 	<key>description</key>
 	<string></string>
 	<key>disabled</key>
@@ -499,11 +525,76 @@
 			<key>version</key>
 			<integer>1</integer>
 		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argumenttype</key>
+				<integer>2</integer>
+				<key>keyword</key>
+				<string>glrefresh</string>
+				<key>subtext</key>
+				<string>Force a refresh of the cached GitLab project list</string>
+				<key>text</key>
+				<string>Refresh GitLab projects</string>
+				<key>withspace</key>
+				<false/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.keyword</string>
+			<key>uid</key>
+			<string>D71B6659-9215-43E3-9D46-6788EE6AD00D</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>concurrently</key>
+				<false/>
+				<key>escaping</key>
+				<integer>102</integer>
+				<key>script</key>
+				<string>python3 gitlab.py --refresh</string>
+				<key>scriptargtype</key>
+				<integer>0</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>type</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>40BFA829-BD00-4838-BF85-29C7BB3A10EB</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>lastpathcomponent</key>
+				<false/>
+				<key>onlyshowifquerypopulated</key>
+				<false/>
+				<key>removeextension</key>
+				<false/>
+				<key>text</key>
+				<string>The GitLab project list is being refreshed in the background.</string>
+				<key>title</key>
+				<string>Refreshing projects</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.output.notification</string>
+			<key>uid</key>
+			<string>F140FD98-1E88-4DE9-9B6B-082378E8C7EC</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
 	</array>
 	<key>readme</key>
 	<string>Setup and Usage
 
-* Generate a GitLab personal access token (https://gitlab.com/profile/personal_access_tokens) then run `glsetkey &lt;yourkey&gt;`
+* Generate a GitLab personal access token (https://gitlab.com/-/user_settings/personal_access_tokens) then run `glsetkey &lt;yourkey&gt;`
 * (Optionally) Tell it where the GitLab API you want to connect to is by running `glseturl https://&lt;host&gt;/api/v4/projects`
   * Defaults to GitLab.com's public API
 * search for projects with `gl &lt;search&gt;`
@@ -608,13 +699,38 @@
 			<key>ypos</key>
 			<real>150</real>
 		</dict>
+		<key>D71B6659-9215-43E3-9D46-6788EE6AD00D</key>
+		<dict>
+			<key>xpos</key>
+			<real>70</real>
+			<key>ypos</key>
+			<real>830</real>
+		</dict>
+		<key>40BFA829-BD00-4838-BF85-29C7BB3A10EB</key>
+		<dict>
+			<key>xpos</key>
+			<real>300</real>
+			<key>ypos</key>
+			<real>830</real>
+		</dict>
+		<key>F140FD98-1E88-4DE9-9B6B-082378E8C7EC</key>
+		<dict>
+			<key>xpos</key>
+			<real>510</real>
+			<key>ypos</key>
+			<real>830</real>
+		</dict>
 	</dict>
 	<key>userconfigurationconfig</key>
 	<array/>
 	<key>variables</key>
 	<dict>
+		<key>membership</key>
+		<string>true</string>
 		<key>quick_open</key>
 		<string>true</string>
+		<key>refresh_interval</key>
+		<string>3600</string>
 	</dict>
 	<key>variablesdontexport</key>
 	<array>
@@ -623,6 +739,6 @@
 	<key>version</key>
 	<string>3.0.1</string>
 	<key>webaddress</key>
-	<string>https://lukewaite.ca</string>
+	<string>https://github.com/hermsi1337/alfred-gitlab</string>
 </dict>
 </plist>
