@@ -1,2 +1,6 @@
 *.pyc
+__pycache__/
 .idea
+
+# Build artifact - published via GitHub Releases, never committed
+GitLab.alfredworkflow
