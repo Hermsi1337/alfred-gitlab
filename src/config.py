@@ -25,7 +25,3 @@ def refresh_interval():
 
 def membership_only():
     return env_flag('membership', True)
-
-
-def hide_archived():
-    return env_flag('hide_archived', False)

@@ -6,7 +6,7 @@ from unittest import mock
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src'))
 
 import config
-from gitlab import project_subtitle, visible_projects
+from gitlab import project_subtitle, toggle_hide_archived, visible_projects
 from update import slim_project
 
 ACTIVE = {'id': 1, 'name_with_namespace': 'Group / Active', 'path_with_namespace': 'group/active',
@@ -28,13 +28,22 @@ class EnvFlagTest(unittest.TestCase):
         with mock.patch.dict(os.environ, {}, clear=True):
             self.assertFalse(config.env_flag('flag', False))
 
-    def test_hide_archived_defaults_to_off(self):
-        with mock.patch.dict(os.environ, {}, clear=True):
-            self.assertFalse(config.hide_archived())
-
     def test_invalid_refresh_interval_uses_default(self):
         with mock.patch.dict(os.environ, {'refresh_interval': 'soon'}):
             self.assertEqual(config.refresh_interval(), config.DEFAULT_REFRESH_INTERVAL)
+
+
+class ToggleHideArchivedTest(unittest.TestCase):
+    def test_first_toggle_hides_archived_projects(self):
+        settings = {}
+        self.assertTrue(toggle_hide_archived(settings))
+        self.assertEqual(settings, {'hide_archived': True})
+
+    def test_second_toggle_shows_them_again(self):
+        settings = {}
+        toggle_hide_archived(settings)
+        self.assertFalse(toggle_hide_archived(settings))
+        self.assertEqual(settings, {'hide_archived': False})
 
 
 class VisibleProjectsTest(unittest.TestCase):

@@ -11,7 +11,7 @@ distributed as a `.alfredworkflow` bundle.
 ## Layout
 
 - `src/`: the workflow root; everything here ends up in the distributed bundle.
-  - `src/gitlab.py`: Script Filter entry point (keyword `gl`); also handles `--setkey`, `--seturl`, `--refresh`.
+  - `src/gitlab.py`: Script Filter entry point (keyword `gl`); also handles `--setkey`, `--seturl`, `--refresh`, `--toggle-archived`.
   - `src/update.py`: background job that fetches the project list from the GitLab API and caches it.
   - `src/config.py`: reads the workflow variables from the environment, shared by both scripts.
   - `src/info.plist`: the Alfred workflow definition (keywords, variables, connections, version).
@@ -42,13 +42,17 @@ distributed as a `.alfredworkflow` bundle.
 Boolean variables accept `true`/`false`, `1`/`0`, `yes`/`no`, `on`/`off`; anything else falls back to the default.
 
 - `membership` (default `true`): when true, only projects the user is a member of are fetched.
-- `hide_archived` (default `false`): when true, archived projects are filtered out at display time in
-  `gitlab.py`, so toggling it needs no refresh. The cache always holds archived projects too.
 - `refresh_interval` (default `3600`): seconds before the cached project list is refreshed.
 - `quick_open` (default `true`): open projects directly vs. show the sub-page menu.
 
 New variables get a default in the `variables` dict of `info.plist`, a reader in `config.py`, and an
 entry in the README table and the `readme` string of `info.plist`.
+
+## Settings (persisted by `wf.settings` in the workflow data dir)
+
+- `api_url`: set via `glseturl`.
+- `hide_archived` (default `false`): flipped via `glhidearchived`. Archived projects are filtered out at
+  display time in `gitlab.py`, so toggling needs no refresh. The cache always holds archived projects too.
 
 ## GitLab API
 

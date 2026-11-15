@@ -4,7 +4,9 @@ import argparse
 from workflow import Workflow3, ICON_WARNING, ICON_INFO, ICON_ERROR, PasswordNotFound
 from workflow.background import run_in_background, is_running
 
-from config import hide_archived, refresh_interval
+from config import refresh_interval
+
+HIDE_ARCHIVED_SETTING = 'hide_archived'
 
 log = None
 
@@ -29,6 +31,13 @@ def project_subtitle(project):
     return project['path_with_namespace']
 
 
+def toggle_hide_archived(settings):
+    hide = not settings.get(HIDE_ARCHIVED_SETTING, False)
+    settings[HIDE_ARCHIVED_SETTING] = hide
+
+    return hide
+
+
 def trigger_update(wf):
     if not is_running('update'):
         run_in_background('update', [sys.executable, wf.workflowfile('update.py')])
@@ -39,6 +48,7 @@ def main(wf):
     parser.add_argument('--setkey', dest='apikey', nargs='?', default=None)
     parser.add_argument('--seturl', dest='apiurl', nargs='?', default=None)
     parser.add_argument('--refresh', dest='refresh', action='store_true')
+    parser.add_argument('--toggle-archived', dest='toggle_archived', action='store_true')
     parser.add_argument('query', nargs='?', default=None)
     args = parser.parse_args(wf.args)
 
@@ -62,6 +72,13 @@ def main(wf):
 
         return 0
 
+    if args.toggle_archived:
+        hide = toggle_hide_archived(wf.settings)
+        log.info(f'hide_archived is now {hide}')
+        print('Archived projects are now hidden.' if hide else 'Archived projects are now shown.')
+
+        return 0
+
     try:
         wf.get_password('gitlab_api_key')
     except PasswordNotFound:
@@ -75,7 +92,8 @@ def main(wf):
 
     query = args.query
 
-    projects = visible_projects(wf.cached_data('projects', None, max_age=0) or [], hide_archived())
+    projects = visible_projects(wf.cached_data('projects', None, max_age=0) or [],
+                                wf.settings.get(HIDE_ARCHIVED_SETTING, False))
 
     if wf.update_available:
         wf.add_item('New version available',

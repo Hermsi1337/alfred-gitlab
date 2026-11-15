@@ -185,6 +185,32 @@
 				<false/>
 			</dict>
 		</array>
+		<key>5FEA82E2-DA1E-4A6D-9F66-4B9C67D19EA0</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>78909BDA-1E88-4D60-9589-249ECB8D2244</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>78909BDA-1E88-4D60-9589-249ECB8D2244</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>E3BC5F85-6699-4A62-BE10-5E6A14436323</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
 	</dict>
 	<key>createdby</key>
 	<string>hermsi1337</string>
@@ -590,6 +616,71 @@
 			<key>version</key>
 			<integer>1</integer>
 		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argumenttype</key>
+				<integer>2</integer>
+				<key>keyword</key>
+				<string>glhidearchived</string>
+				<key>subtext</key>
+				<string>Toggle whether archived GitLab projects are hidden</string>
+				<key>text</key>
+				<string>Hide/show archived GitLab projects</string>
+				<key>withspace</key>
+				<false/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.keyword</string>
+			<key>uid</key>
+			<string>5FEA82E2-DA1E-4A6D-9F66-4B9C67D19EA0</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>concurrently</key>
+				<false/>
+				<key>escaping</key>
+				<integer>102</integer>
+				<key>script</key>
+				<string>python3 gitlab.py --toggle-archived</string>
+				<key>scriptargtype</key>
+				<integer>0</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>type</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>78909BDA-1E88-4D60-9589-249ECB8D2244</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>lastpathcomponent</key>
+				<false/>
+				<key>onlyshowifquerypopulated</key>
+				<false/>
+				<key>removeextension</key>
+				<false/>
+				<key>text</key>
+				<string>{query}</string>
+				<key>title</key>
+				<string>GitLab</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.output.notification</string>
+			<key>uid</key>
+			<string>E3BC5F85-6699-4A62-BE10-5E6A14436323</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
 	</array>
 	<key>readme</key>
 	<string>Setup and Usage
@@ -599,11 +690,11 @@
   * Defaults to GitLab.com's public API
 * Search for projects with `gl &lt;search&gt;`
 * Force a refresh of the cached project list with `glrefresh`
+* Hide or show archived projects with `glhidearchived` (toggles, archived projects are shown by default)
 
 Workflow variables
 
 * `membership` (default `true`): only list projects you are a member of.
-* `hide_archived` (default `false`): set to `true` to hide archived projects.
 * `refresh_interval` (default `3600`): seconds before the cached project list is refreshed.
 * `quick_open` (default `true`): set to `false` to pick a sub-page (Issues, Merge Requests, Pipelines) after selecting a project.</string>
 	<key>uidata</key>
@@ -727,6 +818,27 @@ Workflow variables
 			<key>ypos</key>
 			<real>830</real>
 		</dict>
+		<key>5FEA82E2-DA1E-4A6D-9F66-4B9C67D19EA0</key>
+		<dict>
+			<key>xpos</key>
+			<real>70</real>
+			<key>ypos</key>
+			<real>990</real>
+		</dict>
+		<key>78909BDA-1E88-4D60-9589-249ECB8D2244</key>
+		<dict>
+			<key>xpos</key>
+			<real>300</real>
+			<key>ypos</key>
+			<real>990</real>
+		</dict>
+		<key>E3BC5F85-6699-4A62-BE10-5E6A14436323</key>
+		<dict>
+			<key>xpos</key>
+			<real>510</real>
+			<key>ypos</key>
+			<real>990</real>
+		</dict>
 	</dict>
 	<key>userconfigurationconfig</key>
 	<array/>
@@ -734,8 +846,6 @@ Workflow variables
 	<dict>
 		<key>membership</key>
 		<string>true</string>
-		<key>hide_archived</key>
-		<string>false</string>
 		<key>quick_open</key>
 		<string>true</string>
 		<key>refresh_interval</key>

@@ -10,6 +10,7 @@ Quickly navigate to GitLab projects in [Alfred 5][alfred].
   * Defaults to GitLab.com's public API
 * Search for projects with `gl <search>`
 * Force a refresh of the cached project list with `glrefresh` (the list also refreshes automatically in the background, see below)
+* Hide or show archived projects with `glhidearchived`. It toggles: archived projects are shown by default (marked `(archived)` in the subtitle), the first run hides them, the next run shows them again. Takes effect immediately, no refresh needed.
 
 ## Refreshing the project list
 The project list is cached and refreshed in the background. By default the cache is considered stale
@@ -28,7 +29,6 @@ Configure the workflow via [Workflow variables][wf-vars] (Alfred â†’ Workflow â†
 | Variable | Default | Effect |
 | --- | --- | --- |
 | `membership` | `true` | When `true`, only projects you are a *member* of are listed. Set it to `false` to list every project your token can see, which is useful on instances where you can access projects without being an explicit member. Expect a larger, slower fetch. |
-| `hide_archived` | `false` | When `true`, archived projects are left out of the results. Takes effect immediately, no refresh needed. When `false`, archived projects are listed with `(archived)` in the subtitle. |
 | `refresh_interval` | `3600` | How long (in seconds) the cached project list is considered fresh before a background refresh is triggered. |
 | `quick_open` | `true` | When `true`, selecting a project opens it directly. Set it to `false` to enable sub-page navigation (see below). |
 
