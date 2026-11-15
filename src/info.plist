@@ -594,11 +594,18 @@
 	<key>readme</key>
 	<string>Setup and Usage
 
-* Generate a GitLab personal access token (https://gitlab.com/-/user_settings/personal_access_tokens) then run `glsetkey &lt;yourkey&gt;`
+* Generate a GitLab personal access token with the `read_api` scope (https://gitlab.com/-/user_settings/personal_access_tokens), then run `glsetkey &lt;yourkey&gt;`
 * (Optionally) Tell it where the GitLab API you want to connect to is by running `glseturl https://&lt;host&gt;/api/v4/projects`
   * Defaults to GitLab.com's public API
-* search for projects with `gl &lt;search&gt;`
-* Optionally, disable sub-page navigation by setting `quick_open` to `true` in Workflow Configuration.</string>
+* Search for projects with `gl &lt;search&gt;`
+* Force a refresh of the cached project list with `glrefresh`
+
+Workflow variables
+
+* `membership` (default `true`): only list projects you are a member of.
+* `hide_archived` (default `false`): set to `true` to hide archived projects.
+* `refresh_interval` (default `3600`): seconds before the cached project list is refreshed.
+* `quick_open` (default `true`): set to `false` to pick a sub-page (Issues, Merge Requests, Pipelines) after selecting a project.</string>
 	<key>uidata</key>
 	<dict>
 		<key>07D583FC-AFE3-47D1-8076-FF78BE066E4E</key>
@@ -727,6 +734,8 @@
 	<dict>
 		<key>membership</key>
 		<string>true</string>
+		<key>hide_archived</key>
+		<string>false</string>
 		<key>quick_open</key>
 		<string>true</string>
 		<key>refresh_interval</key>

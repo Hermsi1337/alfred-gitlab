@@ -1,26 +1,32 @@
-import os
 import sys
 import argparse
 
 from workflow import Workflow3, ICON_WARNING, ICON_INFO, ICON_ERROR, PasswordNotFound
 from workflow.background import run_in_background, is_running
 
+from config import hide_archived, refresh_interval
+
 log = None
-
-DEFAULT_REFRESH_INTERVAL = 3600
-
-
-def refresh_interval():
-    try:
-        return int(os.environ.get('refresh_interval', DEFAULT_REFRESH_INTERVAL))
-    except ValueError:
-        return DEFAULT_REFRESH_INTERVAL
 
 
 def search_for_project(project):
     elements = [project['name_with_namespace'], project['path_with_namespace']]
 
     return ' '.join(elements)
+
+
+def visible_projects(projects, skip_archived):
+    if not skip_archived:
+        return projects
+
+    return [project for project in projects if not project.get('archived')]
+
+
+def project_subtitle(project):
+    if project.get('archived'):
+        return f"{project['path_with_namespace']} (archived)"
+
+    return project['path_with_namespace']
 
 
 def trigger_update(wf):
@@ -69,7 +75,7 @@ def main(wf):
 
     query = args.query
 
-    projects = wf.cached_data('projects', None, max_age=0)
+    projects = visible_projects(wf.cached_data('projects', None, max_age=0) or [], hide_archived())
 
     if wf.update_available:
         wf.add_item('New version available',
@@ -106,7 +112,7 @@ def main(wf):
 
     for project in projects:
         wf.add_item(title=project['name_with_namespace'],
-                    subtitle=project['path_with_namespace'],
+                    subtitle=project_subtitle(project),
                     arg=project['web_url'],
                     valid=True,
                     icon=None,

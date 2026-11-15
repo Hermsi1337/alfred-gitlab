@@ -10,13 +10,16 @@ distributed as a `.alfredworkflow` bundle.
 
 ## Layout
 
-- `src/` — the workflow root; everything here ends up in the distributed bundle.
-  - `src/gitlab.py` — Script Filter entry point (keyword `gl`); also handles `--setkey`, `--seturl`, `--refresh`.
-  - `src/update.py` — background job that fetches the project list from the GitLab API and caches it.
-  - `src/info.plist` — the Alfred workflow definition (keywords, variables, connections, version).
-  - `src/workflow/` and `src/mureq.py` — **vendored third-party libraries. Do not edit them.**
-- `.github/workflows/release.yml` — the release pipeline (see Releases).
-- `docs/` — screenshots referenced by the README.
+- `src/`: the workflow root; everything here ends up in the distributed bundle.
+  - `src/gitlab.py`: Script Filter entry point (keyword `gl`); also handles `--setkey`, `--seturl`, `--refresh`.
+  - `src/update.py`: background job that fetches the project list from the GitLab API and caches it.
+  - `src/config.py`: reads the workflow variables from the environment, shared by both scripts.
+  - `src/info.plist`: the Alfred workflow definition (keywords, variables, connections, version).
+  - `src/workflow/` and `src/mureq.py`: **vendored third-party libraries. Do not edit them.**
+- `tests/`: stdlib `unittest` tests; not part of the bundle.
+- `.github/workflows/check.yml`: compile, plist lint and tests on every push and PR.
+- `.github/workflows/release.yml`: the release pipeline (see Releases).
+- `docs/`: screenshots referenced by the README.
 
 ## Hard rules
 
@@ -36,20 +39,30 @@ distributed as a `.alfredworkflow` bundle.
 
 ## Configuration (Alfred workflow variables, read from the environment)
 
-- `membership` (default `true`) — when true, only projects the user is a member of are fetched.
-- `refresh_interval` (default `3600`) — seconds before the cached project list is refreshed.
-- `quick_open` (default `true`) — open projects directly vs. show the sub-page menu.
+Boolean variables accept `true`/`false`, `1`/`0`, `yes`/`no`, `on`/`off`; anything else falls back to the default.
+
+- `membership` (default `true`): when true, only projects the user is a member of are fetched.
+- `hide_archived` (default `false`): when true, archived projects are filtered out at display time in
+  `gitlab.py`, so toggling it needs no refresh. The cache always holds archived projects too.
+- `refresh_interval` (default `3600`): seconds before the cached project list is refreshed.
+- `quick_open` (default `true`): open projects directly vs. show the sub-page menu.
+
+New variables get a default in the `variables` dict of `info.plist`, a reader in `config.py`, and an
+entry in the README table and the `readme` string of `info.plist`.
 
 ## GitLab API
 
 - REST API v4. Authenticate with the `PRIVATE-TOKEN` header — never the deprecated
   `private_token` query parameter.
 - The project list is paginated via the `X-Next-Page` response header.
+- `update.py` caches only the fields in `CACHED_PROJECT_FIELDS`. A new field read in `gitlab.py` must be
+  added there, and must be read with `.get()` since existing caches lack it until the next refresh.
 
 ## Verify before pushing
 
-- `python3 -m py_compile src/gitlab.py src/update.py`
+- `python3 -m py_compile src/config.py src/gitlab.py src/update.py`
 - `plutil -lint src/info.plist`
+- `python3 -m unittest discover -s tests`
 
 ## Local testing
 

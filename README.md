@@ -9,7 +9,7 @@ Quickly navigate to GitLab projects in [Alfred 5][alfred].
 * (Optionally) Tell it where the GitLab API you want to connect to is by running `glseturl https://<host>/api/v4/projects`
   * Defaults to GitLab.com's public API
 * Search for projects with `gl <search>`
-* Force a refresh of the cached project list with `glrefresh` (the list also refreshes automatically in the background — see below)
+* Force a refresh of the cached project list with `glrefresh` (the list also refreshes automatically in the background, see below)
 
 ## Refreshing the project list
 The project list is cached and refreshed in the background. By default the cache is considered stale
@@ -19,7 +19,7 @@ results update in place.
 If you need fresh data immediately (e.g. you just created a project), run `glrefresh`. It clears the
 cache and triggers an update right away.
 
-If a background refresh fails (expired token, network/VPN issue, API error), `gl` now shows the error
+If a background refresh fails (expired token, network/VPN issue, API error), `gl` shows the error
 at the top of the results instead of silently serving stale data.
 
 ## Configuration
@@ -27,7 +27,8 @@ Configure the workflow via [Workflow variables][wf-vars] (Alfred → Workflow �
 
 | Variable | Default | Effect |
 | --- | --- | --- |
-| `membership` | `true` | When `true`, only projects you are a *member* of are listed. Set it to `false` to list every project your token can see — useful on instances where you can access projects without being an explicit member. Expect a larger, slower fetch. |
+| `membership` | `true` | When `true`, only projects you are a *member* of are listed. Set it to `false` to list every project your token can see, which is useful on instances where you can access projects without being an explicit member. Expect a larger, slower fetch. |
+| `hide_archived` | `false` | When `true`, archived projects are left out of the results. Takes effect immediately, no refresh needed. When `false`, archived projects are listed with `(archived)` in the subtitle. |
 | `refresh_interval` | `3600` | How long (in seconds) the cached project list is considered fresh before a background refresh is triggered. |
 | `quick_open` | `true` | When `true`, selecting a project opens it directly. Set it to `false` to enable sub-page navigation (see below). |
 
@@ -36,8 +37,14 @@ Configure the workflow via [Workflow variables][wf-vars] (Alfred → Workflow �
 After selecting a repository, you are prompted with a page to navigate to (Overview, Issues, Merge
 Requests, Pipelines). This is controlled by the `quick_open` variable above.
 
-## Notes
-By default, only projects you are a member of are shown. See the `membership` variable above to change this.
+## Development
+Run the checks the CI runs before pushing:
+
+```sh
+python3 -m py_compile src/config.py src/gitlab.py src/update.py
+plutil -lint src/info.plist
+python3 -m unittest discover -s tests
+```
 
 # Thanks, License, Copyright
 

@@ -1,0 +1,21 @@
+name: Check
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+
+jobs:
+  check:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Compile
+        run: python3 -m py_compile src/config.py src/gitlab.py src/update.py
+
+      - name: Lint info.plist
+        run: plutil -lint src/info.plist
+
+      - name: Test
+        run: python3 -m unittest discover -s tests -v
